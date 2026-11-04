@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Overview{% endblock %}
+
+{% block content %}
+<section class="py-2 py-lg-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-4 mb-5">
+        <div>
+            <div class="eyebrow">Your CampusConnect</div>
+            <h1 class="display-title mt-3">Make room for<br>what’s next.</h1>
+            <p class="text-secondary mt-3 mb-0">Welcome back, {{ user.first_name|default:user.username }}. Your campus story keeps moving.</p>
+        </div>
+        <a href="{% url 'profile' %}" class="btn btn-dark rounded-pill px-4 py-3">Edit your profile <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="metric-card p-4 h-100">
+                <div class="text-white-50 small">Around campus</div>
+                <div class="metric-value mt-2">{{ member_count }}</div>
+                <div class="small text-white-50">members in the community</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="soft-panel p-4 h-100">
+                <div class="eyebrow">Your lane</div>
+                <div class="h4 mt-3 mb-1">{{ user.get_role_display }}</div>
+                <div class="text-secondary small">Your CampusConnect role</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="soft-panel p-4 h-100">
+                <div class="eyebrow">Current focus</div>
+                <div class="h4 mt-3 mb-1">{{ user.course|default:"Add your course" }}</div>
+                <div class="text-secondary small">Make your profile yours</div>
+            </div>
+        </div>
+    </div>
+    <div class="soft-panel mt-4 p-4 p-md-5 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <div>
+            <div class="eyebrow">Small details, big difference</div>
+            <h2 class="h3 mt-2 mb-1">Keep your profile up to date.</h2>
+            <p class="text-secondary mb-0">Help classmates put a name to the face and the course to the conversation.</p>
+        </div>
+        <a href="{% url 'profile' %}" class="btn btn-outline-dark rounded-pill px-4">Update details</a>
+    </div>
+    {% if is_admin %}
+        <div class="mt-4"><a href="{% url 'admin_panel' %}" class="small fw-semibold">Open admin panel ↗</a></div>
+    {% endif %}
+</section>
+{% endblock %}

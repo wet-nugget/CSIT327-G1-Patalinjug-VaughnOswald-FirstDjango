@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-lg-5">
+    <div class="col-lg-10">
+        <div class="row g-0 soft-panel overflow-hidden">
+            <div class="col-lg-5 auth-aside p-4 p-md-5">
+                <div class="eyebrow" style="color: var(--lime)">Your campus, closer</div>
+                <h1 class="display-title mt-4">Good to<br>see you.</h1>
+                <p class="text-white-50 mt-4 mb-0">Pick up where your campus community left off.</p>
+                <div class="mt-5 pt-5 text-white-50 small">A familiar place for what’s next.</div>
+            </div>
+            <div class="col-lg-7 p-4 p-md-5">
+                <div class="eyebrow">Welcome back</div>
+                <h2 class="h2 mt-2">Sign in</h2>
+                <p class="text-secondary mb-4">Use your CampusConnect account to continue.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+                    <button type="submit" class="btn btn-lime w-100 mt-2">Sign in <span aria-hidden="true">↗</span></button>
+                </form>
+                <p class="small text-secondary mt-4 mb-0">New here? <a href="{% url 'signup' %}" class="fw-semibold">Create an account</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

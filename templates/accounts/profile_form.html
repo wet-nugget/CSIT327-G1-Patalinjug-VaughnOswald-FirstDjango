@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}My profile{% endblock %}
+
+{% block content %}
+<section class="py-2 py-lg-4">
+    <div class="row g-4 align-items-start">
+        <div class="col-lg-4">
+            <div class="eyebrow">Your space</div>
+            <h1 class="display-title mt-3">Make it<br>your own.</h1>
+            <p class="text-secondary mt-3">Keep the details that help your campus community recognize you up to date.</p>
+            <div class="soft-panel p-4 mt-4">
+                <div class="profile-monogram mb-3" aria-hidden="true">{{ user.first_name|default:user.username|first|upper }}</div>
+                <h2 class="h4 mb-1">{{ user.get_full_name|default:user.username }}</h2>
+                <p class="text-secondary small mb-3">@{{ user.username }}</p>
+                <span class="badge rounded-pill text-bg-light border">{{ user.get_role_display }}</span>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="soft-panel p-4 p-md-5">
+                <div class="eyebrow">Profile details</div>
+                <h2 class="h3 mt-2 mb-1">Edit your information</h2>
+                <p class="text-secondary mb-4">Your username and role stay as they are.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <button type="submit" class="btn btn-lime">Save changes <span aria-hidden="true">↗</span></button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

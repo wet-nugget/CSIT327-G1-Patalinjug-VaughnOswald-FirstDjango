@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Admin panel{% endblock %}
+{% block content %}
+<section class="py-3 py-lg-5">
+    <div class="eyebrow">CampusConnect / operations</div>
+    <h1 class="display-title mt-3">Admin panel.</h1>
+    <div class="soft-panel p-4 p-md-5 mt-5">
+        <div class="eyebrow">Workspace</div>
+        <h2 class="h3 mt-2">You’re all caught up.</h2>
+        <p class="text-secondary mb-0">Administrator access is active for {{ user.get_full_name|default:user.username }}.</p>
+    </div>
+</section>
+{% endblock %}
