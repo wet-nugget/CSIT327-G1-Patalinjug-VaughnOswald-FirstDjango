@@ -10,7 +10,7 @@
             <h1 class="display-title mt-3">Make room for<br>what’s next.</h1>
             <p class="text-secondary mt-3 mb-0">Welcome back, {{ user.first_name|default:user.username }}. Your campus story keeps moving.</p>
         </div>
-        <a href="{% url 'profile' %}" class="btn btn-dark rounded-pill px-4 py-3">Edit your profile <span aria-hidden="true">↗</span></a>
+        <a href="{% url 'profile' %}" class="btn btn-lime rounded-pill px-4 py-3">View your profile <span aria-hidden="true">↗</span></a>
     </div>
     <div class="row g-3">
         <div class="col-md-4">
@@ -41,7 +41,7 @@
             <h2 class="h3 mt-2 mb-1">Keep your profile up to date.</h2>
             <p class="text-secondary mb-0">Help classmates put a name to the face and the course to the conversation.</p>
         </div>
-        <a href="{% url 'profile' %}" class="btn btn-outline-dark rounded-pill px-4">Update details</a>
+        <a href="{% url 'profile' %}" class="btn btn-outline-theme rounded-pill px-4">Update details</a>
     </div>
     {% if is_admin %}
         <div class="mt-4"><a href="{% url 'admin_panel' %}" class="small fw-semibold">Open admin panel ↗</a></div>

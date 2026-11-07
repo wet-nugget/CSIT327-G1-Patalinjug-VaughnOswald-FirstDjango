@@ -4,33 +4,87 @@
 
 {% block content %}
 <section class="py-2 py-lg-4">
+    <div class="mb-4 mb-lg-5">
+        <div class="eyebrow">Your space</div>
+        <h1 class="display-title mt-3 mb-2">My profile</h1>
+        <p class="text-secondary mb-0">A little about you, all in one place.</p>
+    </div>
     <div class="row g-4 align-items-start">
-        <div class="col-lg-4">
-            <div class="eyebrow">Your space</div>
-            <h1 class="display-title mt-3">Make it<br>your own.</h1>
-            <p class="text-secondary mt-3">Keep the details that help your campus community recognize you up to date.</p>
-            <div class="soft-panel p-4 mt-4">
-                <div class="profile-monogram mb-3" aria-hidden="true">{{ user.first_name|default:user.username|first|upper }}</div>
-                <h2 class="h4 mb-1">{{ user.get_full_name|default:user.username }}</h2>
-                <p class="text-secondary small mb-3">@{{ user.username }}</p>
-                <span class="badge rounded-pill text-bg-light border">{{ user.get_role_display }}</span>
+        <div class="col-lg-5">
+            <div class="soft-panel p-4 p-md-5 h-100">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="profile-monogram flex-shrink-0" aria-hidden="true">{{ user.first_name|default:user.username|first|upper }}</div>
+                    <div class="min-w-0">
+                        <h2 class="h3 mb-1">{{ user.get_full_name|default:user.username }}</h2>
+                        <p class="text-secondary mb-2">@{{ user.username }}</p>
+                        <span class="badge rounded-pill profile-role">{{ user.get_role_display }}</span>
+                    </div>
+                </div>
+                <div class="profile-detail">
+                    <div class="profile-detail-label">Email</div>
+                    <div class="profile-detail-value">{{ user.email|default:"Not added yet" }}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="profile-detail-label">Course</div>
+                    <div class="profile-detail-value">{{ user.course|default:"Not added yet" }}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="profile-detail-label">Name</div>
+                    <div class="profile-detail-value">{{ user.get_full_name|default:"Not added yet" }}</div>
+                </div>
             </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7">
             <div class="soft-panel p-4 p-md-5">
-                <div class="eyebrow">Profile details</div>
-                <h2 class="h3 mt-2 mb-1">Edit your information</h2>
-                <p class="text-secondary mb-4">Your username and role stay as they are.</p>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="d-flex flex-wrap gap-2 mt-4">
-                        <button type="submit" class="btn btn-lime">Save changes <span aria-hidden="true">↗</span></button>
-                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                    <div>
+                        <div class="eyebrow">Profile details</div>
+                        <h2 class="h3 mt-2 mb-1">Your information</h2>
                     </div>
-                </form>
+                    <button type="button" id="toggleProfileEdit" class="btn btn-lime" aria-expanded="false" aria-controls="profileEditor">Edit details</button>
+                </div>
+                <p class="text-secondary mb-4">Update your name, email, or course. Your username and role stay the same.</p>
+                <div id="profileEditor" class="d-none">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <button type="submit" class="btn btn-lime">Save changes <span aria-hidden="true">↗</span></button>
+                            <button type="button" id="cancelProfileEdit" class="btn btn-outline-theme rounded-pill px-4">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="profileEditHint" class="profile-edit-hint rounded-4 p-3">
+                    <span class="eyebrow d-block mb-1">Keep it current</span>
+                    <span class="text-secondary small">Your details help classmates recognize you and connect around shared courses.</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+    const toggleProfileEdit = document.getElementById('toggleProfileEdit');
+    const profileEditor = document.getElementById('profileEditor');
+    const profileEditHint = document.getElementById('profileEditHint');
+    const cancelProfileEdit = document.getElementById('cancelProfileEdit');
+
+    const setProfileEditor = (isOpen) => {
+        profileEditor.classList.toggle('d-none', !isOpen);
+        profileEditHint.classList.toggle('d-none', isOpen);
+        toggleProfileEdit.textContent = isOpen ? 'Close editor' : 'Edit details';
+        toggleProfileEdit.setAttribute('aria-expanded', String(isOpen));
+    };
+
+    if (toggleProfileEdit && profileEditor && profileEditHint) {
+        toggleProfileEdit.addEventListener('click', () => {
+            setProfileEditor(profileEditor.classList.contains('d-none'));
+        });
+    }
+
+    if (cancelProfileEdit && profileEditor && toggleProfileEdit) {
+        cancelProfileEdit.addEventListener('click', () => {
+            setProfileEditor(false);
+        });
+    }
+</script>
 {% endblock %}
